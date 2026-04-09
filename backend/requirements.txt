@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+websockets
+neo4j>=5.0
+asyncpg
+psycopg2-binary
+spacy
+textblob
+Faker
+pydantic
+python-multipart
