@@ -23,8 +23,9 @@ function edgeColor(sentiment: number): string {
 }
 
 function nodeColor(type: string, sentiment: number): string {
-  const base = type === "Person" ? "#ffaa00" : "#00d4ff";
-  return base;
+  if (sentiment > 0.4) return "#00ff88"; // High positive
+  if (sentiment < -0.4) return "#ff2244"; // High negative
+  return type === "Person" ? "#ffaa00" : "#00d4ff";
 }
 
 export default function NexusMap({ nodes, edges, onNodeClick }: Props) {

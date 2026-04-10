@@ -69,6 +69,7 @@ async def _stream_loop():
                 continue
 
             # Ingest into graph
+            log.info("Processing event: %s [%.3f]", event["headline"][:40], event["sentiment"])
             new_edges = neo4j.ingest_event(event)
             await pg.log_event(event)
 
@@ -80,12 +81,14 @@ async def _stream_loop():
             }
 
             await _broadcast(json.dumps(graph_delta))
-            interval = random.uniform(1.2, 3.0) / max(0.1, _sensitivity)
+            log.debug("Broadcasted event to %d clients", len(_ws_clients))
+            
+            interval = random.uniform(1.2, 3.5) / max(0.1, _sensitivity)
             await asyncio.sleep(interval)
 
         except Exception as exc:
-            log.error("Stream loop error: %s", exc)
-            await asyncio.sleep(2)
+            log.error("Stream loop critical error: %s", exc, exc_info=True)
+            await asyncio.sleep(5)
 
 
 async def _broadcast(message: str):

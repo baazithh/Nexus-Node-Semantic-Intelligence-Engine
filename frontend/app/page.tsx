@@ -6,6 +6,7 @@ import CommandConsole from "@/components/CommandConsole";
 import LiveStream from "@/components/LiveStream";
 import StatusBar from "@/components/StatusBar";
 import NodeModal from "@/components/NodeModal";
+import BootSequence from "@/components/BootSequence";
 import { Activity, Cpu, GitBranch } from "lucide-react";
 
 // Dynamic import — force-graph requires browser canvas
@@ -157,6 +158,12 @@ export default function NexusTerminal() {
       });
     } catch { /* offline */ }
   }, []);
+
+  const [showBoot, setShowBoot] = useState(true);
+
+  if (showBoot) {
+    return <BootSequence onComplete={() => setShowBoot(false)} />;
+  }
 
   return (
     <div className="h-screen w-screen flex flex-col bg-nexus-bg overflow-hidden scanlines">
