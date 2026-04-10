@@ -206,13 +206,14 @@ export default function NexusMap({ nodes, edges, onNodeClick }: Props) {
           linkDirectionalArrowLength={4}
           linkDirectionalArrowRelPos={1}
           linkDirectionalArrowColor={(link: any) => link.color}
-          d3AlphaDecay={0.02}
-          d3VelocityDecay={0.3}
-          cooldownTicks={150}
+          d3AlphaDecay={0.01}
+          d3VelocityDecay={0.2}
+          cooldownTicks={200}
           onEngineStop={() => {}}
           enableNodeDrag={true}
           enablePanInteraction={true}
           enableZoomInteraction={true}
+          centerAt={[0, 0]}
         />
       )}
 

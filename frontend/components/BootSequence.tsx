@@ -23,9 +23,11 @@ interface BootSequenceProps {
 export default function BootSequence({ onComplete }: BootSequenceProps) {
   const [logs, setLogs] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setMounted(true);
     let currentLogIndex = 0;
     const interval = setInterval(() => {
       if (currentLogIndex < BOOT_LOGS.length) {
@@ -66,7 +68,7 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
           {logs.map((log, i) => (
             <div key={i} className="text-nexus-text text-xs mb-1.5 flex gap-3">
               <span className="text-nexus-text-dim opacity-40 select-none">
-                [{new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}]
+                [{mounted ? new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "00:00:00"}]
               </span>
               <span className={i === logs.length - 1 ? "text-nexus-cyan animate-pulse" : ""}>
                 {log}
