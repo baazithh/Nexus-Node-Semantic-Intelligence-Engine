@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { StreamEvent } from "@/app/page";
 import { Radio } from "lucide-react";
 
@@ -17,10 +17,14 @@ function sentimentBadge(s: number) {
   if (s < -0.15) return <span className="tag tag-neg">{s.toFixed(2)}</span>;
   return <span className="tag tag-neu">{s.toFixed(2)}</span>;
 }
-
 export default function LiveStream({ events }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const isPausedRef = useRef(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (!isPausedRef.current && scrollRef.current) {
@@ -59,7 +63,7 @@ export default function LiveStream({ events }: Props) {
               {/* Timestamp + source */}
               <div className="flex items-center justify-between mb-1 gap-2">
                 <span className="text-nexus-text-dim text-[0.55rem]">
-                  {new Date(ev.timestamp).toLocaleTimeString("en-US", { hour12: false })}
+                  {mounted ? new Date(ev.timestamp).toLocaleTimeString("en-US", { hour12: false }) : "--:--:--"}
                 </span>
                 <span className="text-nexus-cyan-dim text-[0.55rem] uppercase tracking-wider">
                   {ev.source}
