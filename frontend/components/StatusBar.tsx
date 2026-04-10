@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { GraphNode, GraphEdge } from "@/app/page";
 import { Database, Wifi, WifiOff, Loader } from "lucide-react";
 
@@ -9,13 +10,20 @@ type Props = {
   edges: GraphEdge[];
   sensitivity: number;
 };
-
 export default function StatusBar({ wsStatus, nodes, edges, sensitivity }: Props) {
+  const [mounted, setMounted] = useState(false);
+
   const posEdges = edges.filter((e) => e.sentiment > 0.15).length;
   const negEdges = edges.filter((e) => e.sentiment < -0.15).length;
   const avgSentiment = edges.length
     ? edges.reduce((s, e) => s + e.sentiment, 0) / edges.length
     : 0;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return <div className="h-6 bg-nexus-surface border-t border-nexus-border" />;
 
   const WsIcon = wsStatus === "live" ? Wifi : wsStatus === "connecting" ? Loader : WifiOff;
   const wsColor = wsStatus === "live" ? "#00ff88" : wsStatus === "connecting" ? "#ffaa00" : "#ff2244";
