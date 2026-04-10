@@ -110,6 +110,14 @@ export default function NexusMap({ nodes, edges, onNodeClick }: Props) {
     }
   }, []);
 
+  const paintPointerArea = useCallback((node: any, color: string, ctx: CanvasRenderingContext2D, globalScale: number) => {
+    const r = Math.max(8, Math.sqrt(node.val || 1) * 8); // Larger hit area
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+  }, []);
+
   const paintLink = useCallback((link: any, ctx: CanvasRenderingContext2D, globalScale: number) => {
     const start = link.source;
     const end = link.target;
@@ -198,6 +206,7 @@ export default function NexusMap({ nodes, edges, onNodeClick }: Props) {
           backgroundColor={bgColor}
           nodeCanvasObject={paintNode}
           nodeCanvasObjectMode={() => "replace"}
+          nodePointerAreaPaint={paintPointerArea}
           linkCanvasObject={paintLink}
           linkCanvasObjectMode={() => "replace"}
           onNodeClick={handleNodeClick}
