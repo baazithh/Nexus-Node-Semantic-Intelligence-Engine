@@ -92,6 +92,7 @@ async def _stream_loop():
 
 
 async def _broadcast(message: str):
+    global _ws_clients
     dead = set()
     for ws in _ws_clients.copy():
         try:
