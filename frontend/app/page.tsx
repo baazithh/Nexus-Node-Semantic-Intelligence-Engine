@@ -70,7 +70,7 @@ export default function NexusTerminal() {
   const [wsStatus, setWsStatus] = useState<"connecting" | "live" | "error">("connecting");
   const [eventCount, setEventCount] = useState(0);
   const wsRef = useRef<WebSocket | null>(null);
-  const reconnectTimer = useRef<ReturnType<typeof setTimeout>>();
+  const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const mergeGraph = useCallback((newNodes: GraphNode[], newEdges: GraphEdge[]) => {
     setNodes((prev) => {
