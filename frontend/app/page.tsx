@@ -131,7 +131,7 @@ export default function NexusTerminal() {
   useEffect(() => {
     connect();
     return () => {
-      clearTimeout(reconnectTimer.current);
+      if (reconnectTimer.current) clearTimeout(reconnectTimer.current);
       wsRef.current?.close();
     };
   }, [connect]);
